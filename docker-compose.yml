@@ -1,0 +1,6 @@
+networks:
+  ichbinda-network:
+    name: ichbinda-network
+    external: true
+
+
