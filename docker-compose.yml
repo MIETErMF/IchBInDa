@@ -1,0 +1,23 @@
+networks:
+  ichbinda-network:
+    name: ichbinda-network
+    external: true
+
+services:
+  php:
+    container_name: ichbinda-php
+    env_file:
+      - .env
+    networks:
+      - ichbinda-network
+    restart: unless-stopped
+
+  caddy:
+    container_name: caddy
+    depends_on:
+      - php
+    ports:
+      - "8950:80"
+    networks:
+      - ichbinda-network
+    restart: unless-stopped

@@ -1,0 +1,21 @@
+networks:
+  ichbinda-network:
+    name: ichbinda-network
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ichbinda
+      MYSQL_USER: ichbinda
+      MYSQL_PASSWORD: ichbinda
+    volumes:
+      - /opt/docker/ichbinda/mysql:/var/lib/mysql:delegated
+    networks:
+      - ichbinda-network
+    ports:
+      - "8952:3306"
+    restart: unless-stopped
