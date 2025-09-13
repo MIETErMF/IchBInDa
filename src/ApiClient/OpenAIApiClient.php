@@ -20,7 +20,7 @@ final readonly class OpenAIApiClient
             [
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer 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',
+                    'Authorization' => '',
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
