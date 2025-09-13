@@ -12,4 +12,18 @@ class AchievementRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Achievement::class);
     }
+
+    public function getRandomAchievementsWithPower(int $power, int $maxResults): array
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('achievement')
+            ->from('App\Entity\Achievement', 'achievement')
+            ->orderBy('RAND()')
+            ->where('achievement.power = :power')
+            ->setParameter('power', $power)
+            ->setMaxResults($maxResults);
+
+        return $qb->getQuery()->getResult();
+    }
 }

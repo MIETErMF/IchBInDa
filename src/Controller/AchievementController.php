@@ -19,8 +19,8 @@ final class AchievementController extends AbstractController
     {
     }
 
-    #[Route('/achievements', name: 'achievements')]
-    public function getAchievements(): Response
+    #[Route('/all-achievements', name: 'all-achievements')]
+    public function getAllAchievements(): Response
     {
         $allAchievements = $this->achievementRepository->findAll();
 
@@ -31,11 +31,21 @@ final class AchievementController extends AbstractController
         ]);
     }
 
+    #[Route('/achievements', name: 'achievements')]
+    public function getAchievements(): Response
+    {
+        $randomAchievementsWithPower1 = $this->achievementRepository->getRandomAchievementsWithPower(power: 1, maxResults: 2);
+        $randomAchievementsWithPower2 = $this->achievementRepository->getRandomAchievementsWithPower(power: 2, maxResults: 1);
+        $randomAchievementsWithPower3 = $this->achievementRepository->getRandomAchievementsWithPower(power: 3, maxResults: 1);
+        return $this->render('achievements.html.twig', [
+            'achievements' => array_merge($randomAchievementsWithPower1, $randomAchievementsWithPower2, $randomAchievementsWithPower3)]);
+    }
+
     #[Route('/gen', name: 'generate')]
     public function generate(): RedirectResponse
     {
         $this->client->getAchievements();
-        return $this->redirectToRoute('achievements');
+        return $this->redirectToRoute('all-achievements');
     }
 
     #[Route('/cleanup', name: 'cleanup')]
@@ -46,6 +56,6 @@ final class AchievementController extends AbstractController
             ->getQuery()
             ->execute();
 
-        return $this->redirectToRoute('achievements');
+        return $this->redirectToRoute('all-achievements');
     }
 }

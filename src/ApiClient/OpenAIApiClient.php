@@ -20,7 +20,7 @@ final readonly class OpenAIApiClient
             [
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer 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',
+                    'Authorization' => 'Bearer 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',
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
@@ -87,6 +87,6 @@ final readonly class OpenAIApiClient
 
         $this->em->flush();
 
-        return $achievements;
+        return [$achievement1,$achievement2,$achievement3,$achievement4];
     }
 }
