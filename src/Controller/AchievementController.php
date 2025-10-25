@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\ApiClient\OpenAIApiClient;
+use App\ApiClient\UnsplashApiClient;
 use App\Entity\Achievement;
 use App\Repository\AchievementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,8 @@ final class AchievementController extends AbstractController
 {
     public function __construct(
         private readonly AchievementRepository $achievementRepository,
-        private readonly OpenAIApiClient       $client
+        private readonly OpenAIApiClient       $client,
+        private readonly UnsplashApiClient $unsplashApiClient
     )
     {
     }
@@ -24,7 +26,7 @@ final class AchievementController extends AbstractController
     {
         $allAchievements = $this->achievementRepository->findAll();
 
-        return $this->render('achievements.html.twig', [
+        return $this->render('all-achievements.html.twig', [
             'achievements' => array_filter($allAchievements, function (Achievement $item) {
                 return strlen($item->getName()) > 3;
             })
@@ -37,8 +39,12 @@ final class AchievementController extends AbstractController
         $randomAchievementsWithPower1 = $this->achievementRepository->getRandomAchievementsWithPower(power: 1, maxResults: 2);
         $randomAchievementsWithPower2 = $this->achievementRepository->getRandomAchievementsWithPower(power: 2, maxResults: 1);
         $randomAchievementsWithPower3 = $this->achievementRepository->getRandomAchievementsWithPower(power: 3, maxResults: 1);
+        $image = $this->unsplashApiClient->getImage();
+
         return $this->render('achievements.html.twig', [
-            'achievements' => array_merge($randomAchievementsWithPower1, $randomAchievementsWithPower2, $randomAchievementsWithPower3)]);
+            'achievements' => array_merge($randomAchievementsWithPower1, $randomAchievementsWithPower2, $randomAchievementsWithPower3),
+            'image' => $image
+        ]);
     }
 
     #[Route('/gen', name: 'generate')]

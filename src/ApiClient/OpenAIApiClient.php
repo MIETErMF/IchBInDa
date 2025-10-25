@@ -4,11 +4,17 @@ namespace App\ApiClient;
 
 use App\Entity\Achievement;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final readonly class OpenAIApiClient
 {
-    public function __construct(private HttpClientInterface $client, private EntityManagerInterface $em)
+    public function __construct(
+        private HttpClientInterface $client,
+        private EntityManagerInterface $em,
+        #[Autowire('%env(OPEN_AI_API_KEY)%')]
+        private string $openAiApiKey
+    )
     {
     }
 
@@ -20,7 +26,7 @@ final readonly class OpenAIApiClient
             [
                 'headers' => [
                     'Accept' => 'application/json',
-                    'Authorization' => '',
+                    'Authorization' => 'Bearer '. $this->openAiApiKey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [

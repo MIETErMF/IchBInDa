@@ -1,29 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My achievementslist{% endblock %}
+{% block title %}My achievements list{% endblock %}
+    {% block stylesheets %}
+        {{ parent() }}
 
-{% block body %}
-<h1>All achievements</h1>
-<a href="{{ path('generate') }}" class="btn btn-primary">Generate</a>
-<a href="{{ path('cleanup') }}" class="btn btn-primary">Clean up</a>
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Power</th>
-            <th>Name</th>
-            <th>Done</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for achievemnt in  achievements %}
-            <tr>
-                <td>{{ achievemnt.id }}</td>
-                <td>{{ achievemnt.power }}</td>
-                <td>{{ achievemnt.name }}</td>
-                <td>{{ achievemnt.done }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <style>
+            .achievement {
+                border: 2px solid black;
+                border-radius: 5px;
+                background: rgba(0, 0, 0, 0.3);
+                font-family:'poppins', sans-serif;
+            }
+
+            img {
+                position: relative;
+                top: 830PX;
+                left: 1650px;
+            }
+
+            body {
+                background-image: url('{{ image }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: fixed; 
+            }
+
+            .achievements {
+                display: flex;
+                flex-direction: column;
+                margin: 10% auto;
+                width: 350px;
+
+            }
+
+            .achievement {
+                margin-bottom: 15px;
+                color: white;
+                font-weight: 700;
+                font-size: 25px;
+            }
+
+        </style>
     {% endblock %}
+{% block body %}
+    <div class="logo">
+        <img src="{{ asset ('images/logo.svg') }}" alt="">
+    </div>
+    <div class="achievements">
+        {% for achievement in achievements %}
+            <div class="achievement">
+                <div class="achievement-name">{{ achievement.name }}</div>
+            </div>
+            {#            {{ achievement.power }} #}
+        {% endfor %}
+    </div>
+{% endblock %}
